@@ -1,0 +1,26 @@
+{
+  "title": "Smoke test: can kind run here?",
+  "description": "Installs pinned kind and kubectl, creates a one-node Kubernetes v1.37.0 kind cluster, and checks that its node is Ready. A feasibility test for the k8s training course labs.",
+  "details": {
+    "intro": {
+      "title": "Intro",
+      "text": "intro/text.md",
+      "background": "intro/background.sh",
+      "foreground": "intro/foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Check the kind cluster",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      }
+    ],
+    "finish": {
+      "title": "Done",
+      "text": "finish/text.md"
+    }
+  },
+  "backend": {
+    "imageid": "ubuntu-4GB"
+  }
+}
