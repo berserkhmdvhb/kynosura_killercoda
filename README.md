@@ -1,5 +1,7 @@
 # Kynosura labs on Killercoda
 
+> **Status: paused (2026-11-20).** These scenarios are not listed on Killercoda for now. Their setup fetches the course source, which is not public yet. They come back when the course is published with versioned release artifacts.
+
 Scenarios generated from the course labs by `scripts/export-killercoda.ts`. Each one builds the course's own lab environment in a Killercoda `ubuntu-4GB` VM from the course repository at commit `ed9aebcfb3c91d29b4e05b3b4c534850565aa68c`. Do not edit them by hand: re-run the exporter.
 
 | Scenario | Title | Profile | Steps | Checks | Minutes |
