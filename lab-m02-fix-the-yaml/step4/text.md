@@ -1,0 +1,45 @@
+# Apply the files
+
+When kubeconform passes, apply the folder. kubectl applies every file in it. The manifests carry `metadata.namespace: shelf`, so you don't need `--namespace`.
+
+```bash
+kubectl apply --filename fix-the-yaml
+kubectl get configmap,service,pod,serviceaccount --namespace shelf
+```
+Five checks read the objects back, and each one tests the meaning of a repair. `config-keys` reads the two keys of the ConfigMap that a tab had broken. `web-container-port` finds the port 8080 under the container, where a shifted line had put it under the Pod. `web-service-port` reads the number 80 of the Service. `api-port-env` reads the text `8081` of an environment variable. `worker-objects` finds the ConfigMap and the ServiceAccount from the file with the missing separator. The Pods may stay in `ContainerCreating` or `ErrImagePull` until the Shelf images are in the local registry. The checks read the specification, not the status.
+
+Click **Check**. It passes when `config-keys`, `web-container-port`, `web-service-port`, `api-port-env`, `worker-objects` pass.
+
+## Stuck?
+
+Run `shelf hint lab-m02-fix-the-yaml 1` in the terminal, or open a hint below. Each is stronger than the one before.
+
+<details><summary>Hint 1</summary>
+
+Start with `shelf-config.yaml`. Run `kubeconform -strict -summary -kubernetes-version 1.37.0 fix-the-yaml` and read the line for that file: it names a line number and a character that cannot start a token. YAML allows spaces only for indentation, so replace each tab at the start of a line with two spaces.
+
+</details>
+
+<details><summary>Hint 2</summary>
+
+`shelf-web-pod.yaml` parses, but kubeconform says `ports` is not allowed at `/spec`. The key sits one level too high: it is a sibling of `containers`, and it belongs to the container. Indent the `ports` list so it lines up with `image`.
+
+</details>
+
+<details><summary>Hint 3</summary>
+
+`shelf-web-service.yaml` says it got a string where it wants an integer. Look at `port` under `spec.ports`. A quoted `"80"` is text. Remove the quotation marks and keep the number.
+
+</details>
+
+<details><summary>Hint 4</summary>
+
+`shelf-api-pod.yaml` says it got a number where it wants a string. The field is `value` of an environment variable, and Kubernetes stores every environment variable as text. Quote it: `"8081"`.
+
+</details>
+
+<details><summary>Hint 5</summary>
+
+`shelf-worker.yaml` holds two objects, but the file shows only one document: kubeconform complains that keys such as `apiVersion` are already set. Put a line with three dashes, `---`, between the ConfigMap and the ServiceAccount.
+
+</details>

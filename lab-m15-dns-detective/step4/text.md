@@ -1,0 +1,41 @@
+# The wrong dnsPolicy
+
+The Pod `shelf-batch` calls the api by its short name, in the right namespace, and it still fails. Read its policy, and compare it with the probe's. The field can't change on a running Pod: fix `dns-detective/shelf-batch.yaml`, delete the Pod, and apply the file again.
+
+```bash
+kubectl get pods shelf-batch shelf-probe --namespace shelf --output custom-columns=NAME:.metadata.name,POLICY:.spec.dnsPolicy
+kubectl delete pod shelf-batch --namespace shelf
+kubectl apply --filename dns-detective/shelf-batch.yaml
+kubectl wait --for=condition=Ready pod/shelf-batch --namespace shelf
+kubectl exec shelf-batch --namespace shelf -- wget -qO- -T 3 http://shelf-api:8081/healthz
+```
+
+Click **Check**. It passes when `batch-policy`, `batch-lookup` pass.
+
+## Stuck?
+
+Run `shelf hint lab-m15-dns-detective 1` in the terminal, or open a hint below. Each is stronger than the one before.
+
+<details><summary>Hint 1</summary>
+
+The setup left the api (`shelf-api`, one Pod), a probe Pod, and three objects with a DNS mistake each. Start with the names: `kubectl get services --namespace shelf` lists the Service for the api. Compare its name with the name in the clients' URLs, `shelf-api`. The three mistakes are independent, except that the clients can't reach the api until the Service has the right name.
+
+</details>
+
+<details><summary>Hint 2</summary>
+
+The Service's name is `shelf-ap`, so no lookup for `shelf-api` finds it. A name can't be changed. Fix `name:` in `dns-detective/shelf-api-service.yaml`, delete the old Service with `kubectl delete service shelf-ap --namespace shelf`, and apply the file. Then `kubectl exec shelf-probe --namespace shelf -- wget -qO- -T 3 http://shelf-api:8081/healthz` should print `{"status":"ok"}`.
+
+</details>
+
+<details><summary>Hint 3</summary>
+
+The client in `reports` has `API_URL` set to `http://shelf-api:8081`. Its search list starts with `reports.svc.cluster.local`, so the short name looks for a Service in `reports`, and finds none: `NXDOMAIN`. Name the namespace of the Service in `dns-detective/reports-client.yaml` (`shelf-api.shelf`), then apply the file. The Deployment replaces its Pod, so wait for the rollout.
+
+</details>
+
+<details><summary>Hint 4</summary>
+
+`kubectl get pod shelf-batch --namespace shelf --output jsonpath='{.spec.dnsPolicy}'` prints `Default`: the Pod asks the resolver of its node, which has never heard of `shelf-api`. Set `dnsPolicy: ClusterFirst` in `dns-detective/shelf-batch.yaml`. The field can't be changed on a running Pod, so delete the Pod and apply the file. Then run `shelf verify lab-m15-dns-detective`.
+
+</details>

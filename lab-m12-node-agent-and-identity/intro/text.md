@@ -1,0 +1,16 @@
+# A node agent and a stateful database
+
+A lab of the Kynosura Kubernetes course.
+
+You run a node agent on every worker, including one that is tainted, and you run `shelf-db` as a StatefulSet of three replicas behind a headless Service, with a partitioned update that has changed only the highest ordinal. Eight checks prove it. Run every command from the root of your checkout, in a terminal where `shelf` and `kubectl` are on your `PATH`. This lab needs the `multinode` profile (one control plane node and three workers), and the first setup pulls the `busybox` image from the internet once.
+
+Profile: `multinode` (a kind cluster; its measured peak memory is about 1226 MiB, from ADR-0012).
+Estimated time: 35 minutes.
+
+The background script builds the course's lab environment in this VM from the course repository at commit `ed9aebc`: kind, kubectl, the `shelf` CLI and the Shelf images, then `shelf up multinode` and `shelf setup lab-m12-node-agent-and-identity`.
+
+**Setup takes a few minutes. Wait for `RESULT: ready` in this terminal before you start.** If it prints `RESULT: failed`, read the log tail it shows, and send it to the course author.
+
+Work in `/root/course`. A terminal that was open before setup ended needs `source ~/.bashrc` once, which sets `KUBECONFIG` and the folder.
+
+License: the text of this scenario is CC BY 4.0 (see `LICENSE-CONTENT` in this repository). The course code it builds is under the Apache License 2.0 in the course repository.

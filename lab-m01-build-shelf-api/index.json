@@ -1,0 +1,50 @@
+{
+  "title": "Build and push the Shelf api image",
+  "description": "Build and push the Shelf api image. Lab lab-m01-build-shelf-api of the Kynosura Kubernetes course, on the default kind profile, built inside the VM from the course repository.",
+  "details": {
+    "intro": {
+      "title": "Intro",
+      "text": "intro/text.md",
+      "background": "intro/background.sh",
+      "foreground": "intro/foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Prepare",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      },
+      {
+        "title": "Write the Dockerfile",
+        "text": "step2/text.md",
+        "verify": "step2/verify.sh"
+      },
+      {
+        "title": "Build as a non-root user",
+        "text": "step3/text.md",
+        "verify": "step3/verify.sh"
+      },
+      {
+        "title": "Push and record the digest",
+        "text": "step4/text.md",
+        "verify": "step4/verify.sh"
+      },
+      {
+        "title": "Verify",
+        "text": "step5/text.md",
+        "verify": "step5/verify.sh"
+      },
+      {
+        "title": "Reset and clean up",
+        "text": "step6/text.md"
+      }
+    ],
+    "finish": {
+      "title": "Done",
+      "text": "finish/text.md"
+    }
+  },
+  "backend": {
+    "imageid": "ubuntu-4GB"
+  }
+}

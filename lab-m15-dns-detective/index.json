@@ -1,0 +1,50 @@
+{
+  "title": "DNS detective",
+  "description": "DNS detective. Lab lab-m15-dns-detective of the Kynosura Kubernetes course, on the default kind profile, built inside the VM from the course repository.",
+  "details": {
+    "intro": {
+      "title": "Intro",
+      "text": "intro/text.md",
+      "background": "intro/background.sh",
+      "foreground": "intro/foreground.sh"
+    },
+    "steps": [
+      {
+        "title": "Prepare",
+        "text": "step1/text.md",
+        "verify": "step1/verify.sh"
+      },
+      {
+        "title": "The Service's name",
+        "text": "step2/text.md",
+        "verify": "step2/verify.sh"
+      },
+      {
+        "title": "A short name from another namespace",
+        "text": "step3/text.md",
+        "verify": "step3/verify.sh"
+      },
+      {
+        "title": "The wrong dnsPolicy",
+        "text": "step4/text.md",
+        "verify": "step4/verify.sh"
+      },
+      {
+        "title": "Verify",
+        "text": "step5/text.md",
+        "verify": "step5/verify.sh"
+      },
+      {
+        "title": "Reset and clean up",
+        "text": "step6/text.md"
+      }
+    ],
+    "finish": {
+      "title": "Done",
+      "text": "finish/text.md"
+    }
+  },
+  "backend": {
+    "imageid": "ubuntu-4GB"
+  }
+}
